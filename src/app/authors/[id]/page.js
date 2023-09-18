@@ -6,8 +6,9 @@ export default async function AuthorDetails({params}) {
   const id = params.id
   const author = await getAuthor(id)
   console.log('author:', author)
+  
   const birthDate = author.birth_date.split('T')[0]
-  const deathDate = author.death_date ? author.death_date.split("T")[0] : ''
+  const deathDate = author.death_date?.split("T")[0]
 
   return (
     <>
@@ -20,7 +21,7 @@ export default async function AuthorDetails({params}) {
           <span> ( </span>
           <FormattedDate dateString={birthDate} />
           <span> - </span>
-          {author.death_date ? (<FormattedDate dateString={deathDate} />) : ('Alive')}
+          {deathDate ? (<FormattedDate dateString={deathDate} />) : ('Alive')}
           <span> ) </span>
         </p>
         <p>

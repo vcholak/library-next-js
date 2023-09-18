@@ -6,7 +6,8 @@ export default async function BookCopyDetails({params}) {
   const id = params.id
   const bookCopy = await getBookCopy(id)
   console.log('bookCopy:', bookCopy)
-  const dueDate = bookCopy.due_date ? bookCopy.due_date.split('T')[0] : ''
+
+  const dueDate = bookCopy.due_date?.split('T')[0]
   const book = bookCopy.book
   const author = book.author
   const statuses = getBookCopyStatuses()

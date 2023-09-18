@@ -8,7 +8,8 @@ export default async function UpdateBookCopyForm({params}) {
   const id = params.id
   const bookCopy = await getBookCopy(id)
   console.log('bookCopy:', bookCopy)
-  const dueDate = bookCopy.due_date ? bookCopy.due_date.split('T')[0] : ''
+
+  const dueDate = bookCopy.due_date?.split('T')[0]
 
   const books = await getBooks()
 
@@ -24,7 +25,7 @@ export default async function UpdateBookCopyForm({params}) {
       due_date: dueDate,
       status: parseInt(formData.get('status'))
     }
-    console.log('UpdateBookCopy payload:', payload)
+    console.log('payload:', payload)
 
     const resp = await fetch('http://localhost:8080/api/copies/'+id, {
       method: "PUT",
@@ -36,11 +37,10 @@ export default async function UpdateBookCopyForm({params}) {
 
     if (!resp.ok) {
       console.log('status:', resp.status, 'statusText:', resp.statusText)
-      // This will activate the closest `error.js` Error Boundary
       throw new Error('Failed to update BookCopy')
     }
     const bookCopy = await resp.json()
-    console.log('bookCopy:', bookCopy)
+    console.log('updated bookCopy:', bookCopy)
 
     revalidatePath('/copies')
     redirect('/copies')
@@ -62,8 +62,9 @@ export default async function UpdateBookCopyForm({params}) {
           <input type="date" name="due_date" defaultValue={dueDate} />
         </div>
         <div className='text-center'>
-          <button type="submit" 
-          className='rounded-md bg-cyan-500 text-white hover:bg-blue-500 m-2 px-2'>Update</button>
+          <button type="submit" className='rounded-md bg-cyan-500 text-white hover:bg-blue-500 m-2 px-2'>
+            Update
+          </button>
         </div>
       </form>
     </div>

@@ -9,7 +9,7 @@ export default async function UpdateAuthorForm({params}) {
   console.log('author:', author)
 
   const birthDate = author.birth_date.split('T')[0]
-  const deathDate = author.death_date ? author.death_date.split('T')[0] : ''
+  const deathDate = author.death_date?.split('T')[0]
 
   async function updateAuthor(formData) {
     'use server'
@@ -37,11 +37,10 @@ export default async function UpdateAuthorForm({params}) {
 
     if (!resp.ok) {
       console.log('status:', resp.status, 'statusText:', resp.statusText)
-      // This will activate the closest `error.js` Error Boundary
       throw new Error('Failed to update Author')
     }
     const author = await resp.json()
-    console.log('author:', author)
+    console.log('updated author:', author)
 
     revalidatePath('/authors')
     redirect('/authors')

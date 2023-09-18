@@ -7,7 +7,8 @@ export default async function AuthorForm() {
     'use server'
 
     const birthDate = new Date(formData.get('birth_date'))
-    const deathDate = formData.get('death_date') ? new Date(formData.get('death_date')) : null
+    const str = formData.get('death_date') // can be ''
+    const deathDate = str ? new Date(str) : null
 
     const payload = {
       first_name: formData.get('first_name'),

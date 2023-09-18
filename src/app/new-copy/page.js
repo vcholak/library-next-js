@@ -10,10 +10,13 @@ export default async function BookCopyForm() {
   async function createBookCopy(formData) {
     'use server'
 
+    const str = formData.get('due_date') // can be ''
+    const dueDate = str ? new Date(str) : null
+
     const payload = {
       book_id: parseInt(formData.get('book_id')),
       imprint: formData.get('imprint'),
-      due_date: new Date(formData.get('due_date')),
+      due_date: dueDate,
       status: parseInt(formData.get('status'))
     }
     console.log('pyload:', payload)
@@ -28,7 +31,6 @@ export default async function BookCopyForm() {
 
     if (!resp.ok) {
       console.log('status:', resp.status, 'statusText:', resp.statusText)
-      // This will activate the closest `error.js` Error Boundary
       throw new Error('Failed to create BookCopy')
     }
     const bookCopy = await resp.json()
@@ -51,7 +53,7 @@ export default async function BookCopyForm() {
           <BookCopyStatus />
           
           <label className='sm:text-end'>Due Date:</label>
-          <input type="date" name="due_date" required />
+          <input type="date" name="due_date" />
         </div>
         <div className='text-center'>
           <button type="submit" 
