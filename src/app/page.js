@@ -7,7 +7,7 @@ export default async function Home() {
   const genresCnt = await genresCount()
   return (
     <div className="grid justify-items-center">
-      <h1 className='text-5xl font-bold text-green-500'>Local Library</h1>
+      <h1 className='text-3xl font-bold text-green-500'>Local Library</h1>
       <p>The Library has the following record counts:</p>
       <ul>
         <li><strong>Books: </strong>{booksCnt}</li>
